@@ -7,7 +7,6 @@ import ProfileNavigation from '../components/MentorProfile/ProfileNavigation';
 import ContributionGraph from '../components/MentorProfile/ContributionGraph';
 import ProfileSidebar from '../components/MentorProfile/ProfileSidebar';
 import ProfileContent from '../components/MentorProfile/ProfileContent';
-import BookingCalendar from '../components/BookingCalendar';
 
 const MentorDetailPage = () => {
   const navigate = useNavigate();
