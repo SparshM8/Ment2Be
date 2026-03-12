@@ -148,62 +148,44 @@ const Login = () => {
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 15000); // 15 second timeout
 
-      try {
-        const res = await fetch(`${API_URL}/auth/login`, {
-          method: "POST",
-          headers: { 
-            "Content-Type": "application/json",
-            "Accept": "application/json"
-          },
-          credentials: "include",
-          body: JSON.stringify({
-            email: formData.email,
-            password: formData.password,
-          }),
-          signal: controller.signal
-        });
+      const res = await fetch(`${API_URL}/auth/login`, {
+        method: "POST",
+        headers: { 
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        credentials: "include",
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password,
+        }),
+        signal: controller.signal
+      });
 
-        clearTimeout(timeoutId);
-        console.log(`[Login] Response status: ${res.status}`);
+      clearTimeout(timeoutId);
+      console.log(`[Login] Response status: ${res.status}`);
 
-        let data;
-        try {
-          data = await res.json();
-        } catch (parseErr) {
-          console.error(`[Login] Failed to parse response:`, parseErr);
-          throw new Error("Server response was invalid");
-        }
+      const data = await res.json();
+      console.log(`[Login] Response data:`, data);
 
-        console.log(`[Login] Response data:`, data);
+      if (!res.ok) {
+        throw new Error(data.message || "Login failed");
+      }
 
-        if (!res.ok) {
-          throw new Error(data.message || `Login failed (${res.status})`);
-        }
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("user", JSON.stringify(data));
 
-        if (!data.token) {
-          throw new Error("No token received from server");
-        }
+      console.log(`[Login] Login successful, redirecting to ${data.role} dashboard`);
 
-        localStorage.setItem("token", data.token);
-        localStorage.setItem("user", JSON.stringify(data));
-
-        console.log(`[Login] Login successful, redirecting to ${data.role} dashboard`);
-
-        if (data.role === "mentor") {
-          navigate("/mentor/dashboard");
-        } else {
-          navigate("/student/dashboard");
-        }
-      } catch (fetchErr) {
-        clearTimeout(timeoutId);
-        throw fetchErr;
+      if (data.role === "mentor") {
+        navigate("/mentor/dashboard");
+      } else {
+        navigate("/student/dashboard");
       }
     } catch (err) {
       console.error(`[Login] Error:`, err);
       if (err.name === 'AbortError') {
-        setError("Login request timed out. Backend may not be running. Please check and try again.");
-      } else if (err.message.includes("Failed to fetch")) {
-        setError(`Cannot reach backend at ${API_URL}. Make sure the server is running on port 4000.`);
+        setError("Login request timed out. Please check your connection and try again.");
       } else {
         setError(err.message || "Login failed. Please try again.");
       }

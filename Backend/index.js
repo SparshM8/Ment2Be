@@ -34,6 +34,7 @@ import achievementRouter from './routes/achievement.routes.js';
 import dotenv from "dotenv"
 import { validateEnv } from './config/env.js';
 import errorMiddleware from './middleware/error.middleware.js';
+import { startCronJobs } from './utils/cron.js';
 
 dotenv.config()
 validateEnv();
@@ -176,6 +177,9 @@ const startServer = async () => {
       console.log(`Local: http://localhost:${PORT}`);
       console.log(`Socket.IO enabled for real-time meetings`);
       console.log('\n');
+      
+      // Start background cron jobs
+      startCronJobs();
     });
   } catch (error) {
     console.error('Failed to start server:', error.message);
