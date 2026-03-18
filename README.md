@@ -1,7 +1,7 @@
 <div align="center">
   <img src="Frontend/src/assets/Logo.png" alt="MentorLink Logo" width="120"/>
   
-  # 🎓 MentorLink - Connect, Learn, Grow
+  # 🎓 Ment2Be - Connect, Learn, Grow
   
   ### *Your Gateway to Expert Mentorship and Collaborative Learning*
   
