@@ -14,14 +14,52 @@ import trustImage from '../assets/trust.png';
 import logo from '../assets/logo-hat.png';
 
 const LandingPage = () => {
+  const mentorCarouselItems = [
+    { name: 'Dr. Sarah Johnson', role: 'Tech Expert', image: '/cheerful-indian-businessman-smiling-closeup-portrait-jobs-career-campaign.jpg' },
+    { name: 'Prof. Michael Chen', role: 'Data Science', image: '/cheerful-indian-man.jpg' },
+    { name: 'Emily Rodriguez', role: 'Design Lead', image: '/close-up-excited-person-portrait.jpg' },
+    { name: 'James Wilson', role: 'Business Strategy', image: '/medium-shot-smiley-man-posing.jpg' },
+    { name: 'Lisa Thompson', role: 'Marketing Pro', image: '/happy-brunette-woman-confident-with-natural-hair-feeling-satisfied.jpg' },
+    { name: 'David Kim', role: 'AI Specialist', image: '/portrait-young-indian-businessman-student-sitting-with-pen.jpg' },
+    { name: 'Dr. Maria Garcia', role: 'Healthcare', image: '/pleased-young-brunette-caucasian-woman-stands-sideways-with-crossed-arms.jpg' },
+    { name: 'Robert Taylor', role: 'Finance Expert', image: '/portrait-young-stylish-indian-man-model-isolated-pink-wall-background.jpg' },
+    { name: 'Jennifer Lee', role: 'Education Tech', image: '/smiling-young-beautiful-girl-looking-straight-ahead-wearing-white-t-shirt-isolated-pink.jpg' },
+    { name: 'Alex Martinez', role: 'Software Dev', image: '/smiling-young-brunette-caucasian-girl-looks-camera-olive-green.jpg' },
+    { name: 'Sophie Brown', role: 'UX Research', image: '/cheerful-indian-man.jpg' },
+    { name: 'Kevin Davis', role: 'Product Mgmt', image: '/close-up-excited-person-portrait.jpg' }
+  ];
+
   const [animateElements, setAnimateElements] = useState({
     heading: false,
     description: false,
     image: false,
     buttons: false
   });
+  const [loadedMentorImages, setLoadedMentorImages] = useState({});
   const [dashboardView, setDashboardView] = useState('mentor');
   const [isFlipped, setIsFlipped] = useState(false);
+
+  const getInitials = (fullName) =>
+    fullName
+      .split(' ')
+      .filter(Boolean)
+      .slice(0, 2)
+      .map((part) => part[0])
+      .join('')
+      .toUpperCase();
+
+  const markMentorImageLoaded = (imagePath) => {
+    setLoadedMentorImages((prev) => {
+      if (prev[imagePath]) {
+        return prev;
+      }
+
+      return {
+        ...prev,
+        [imagePath]: true
+      };
+    });
+  };
 
   useEffect(() => {
     let hasAnimated = false;
@@ -76,7 +114,7 @@ const LandingPage = () => {
           animation: slideInUp 0.6s ease-out forwards;
         }
         .animate-scroll {
-          animation: scroll 20s linear infinite;
+          animation: scroll 16s linear infinite;
         }
         .white-illustration {
           filter: brightness(0) invert(1) sepia(1) hue-rotate(200deg) saturate(2);
@@ -405,67 +443,51 @@ const LandingPage = () => {
             {/* Mentor Names Carousel */}
             <div className="p-8 mb-8">
               <div className="overflow-hidden">
-                <div className="flex animate-scroll space-x-8">
-                  <div className="flex-shrink-0 text-center">
-                    <img src="/cheerful-indian-businessman-smiling-closeup-portrait-jobs-career-campaign.jpg" alt="Dr. Sarah Johnson" className="w-16 h-16 rounded-full mx-auto mb-2 object-cover" />
-                    <p className="text-white font-semibold">Dr. Sarah Johnson</p>
-                    <p className="text-gray-300 text-sm">Tech Expert</p>
-                  </div>
-                  <div className="flex-shrink-0 text-center">
-                    <img src="/cheerful-indian-man.jpg" alt="Prof. Michael Chen" className="w-16 h-16 rounded-full mx-auto mb-2 object-cover" />
-                    <p className="text-white font-semibold">Prof. Michael Chen</p>
-                    <p className="text-gray-300 text-sm">Data Science</p>
-                  </div>
-                  <div className="flex-shrink-0 text-center">
-                    <img src="/close-up-excited-person-portrait.jpg" alt="Emily Rodriguez" className="w-16 h-16 rounded-full mx-auto mb-2 object-cover" />
-                    <p className="text-white font-semibold">Emily Rodriguez</p>
-                    <p className="text-gray-300 text-sm">Design Lead</p>
-                  </div>
-                  <div className="flex-shrink-0 text-center">
-                    <img src="/medium-shot-smiley-man-posing.jpg" alt="James Wilson" className="w-16 h-16 rounded-full mx-auto mb-2 object-cover" />
-                    <p className="text-white font-semibold">James Wilson</p>
-                    <p className="text-gray-300 text-sm">Business Strategy</p>
-                  </div>
-                  <div className="flex-shrink-0 text-center">
-                    <img src="/happy-brunette-woman-confident-with-natural-hair-feeling-satisfied.jpg" alt="Lisa Thompson" className="w-16 h-16 rounded-full mx-auto mb-2 object-cover" />
-                    <p className="text-white font-semibold">Lisa Thompson</p>
-                    <p className="text-gray-300 text-sm">Marketing Pro</p>
-                  </div>
-                  <div className="flex-shrink-0 text-center">
-                    <img src="/portrait-young-indian-businessman-student-sitting-with-pen.jpg" alt="David Kim" className="w-16 h-16 rounded-full mx-auto mb-2 object-cover" />
-                    <p className="text-white font-semibold">David Kim</p>
-                    <p className="text-gray-300 text-sm">AI Specialist</p>
-                  </div>
-                  <div className="flex-shrink-0 text-center">
-                    <img src="/pleased-young-brunette-caucasian-woman-stands-sideways-with-crossed-arms.jpg" alt="Dr. Maria Garcia" className="w-16 h-16 rounded-full mx-auto mb-2 object-cover" />
-                    <p className="text-white font-semibold">Dr. Maria Garcia</p>
-                    <p className="text-gray-300 text-sm">Healthcare</p>
-                  </div>
-                  <div className="flex-shrink-0 text-center">
-                    <img src="/portrait-young-stylish-indian-man-model-isolated-pink-wall-background.jpg" alt="Robert Taylor" className="w-16 h-16 rounded-full mx-auto mb-2 object-cover" />
-                    <p className="text-white font-semibold">Robert Taylor</p>
-                    <p className="text-gray-300 text-sm">Finance Expert</p>
-                  </div>
-                  <div className="flex-shrink-0 text-center">
-                    <img src="/smiling-young-beautiful-girl-looking-straight-ahead-wearing-white-t-shirt-isolated-pink.jpg" alt="Jennifer Lee" className="w-16 h-16 rounded-full mx-auto mb-2 object-cover" />
-                    <p className="text-white font-semibold">Jennifer Lee</p>
-                    <p className="text-gray-300 text-sm">Education Tech</p>
-                  </div>
-                  <div className="flex-shrink-0 text-center">
-                    <img src="/smiling-young-brunette-caucasian-girl-looks-camera-olive-green.jpg" alt="Alex Martinez" className="w-16 h-16 rounded-full mx-auto mb-2 object-cover" />
-                    <p className="text-white font-semibold">Alex Martinez</p>
-                    <p className="text-gray-300 text-sm">Software Dev</p>
-                  </div>
-                  <div className="flex-shrink-0 text-center">
-                    <img src="/cheerful-indian-man.jpg" alt="Sophie Brown" className="w-16 h-16 rounded-full mx-auto mb-2 object-cover" />
-                    <p className="text-white font-semibold">Sophie Brown</p>
-                    <p className="text-gray-300 text-sm">UX Research</p>
-                  </div>
-                  <div className="flex-shrink-0 text-center">
-                    <img src="/close-up-excited-person-portrait.jpg" alt="Kevin Davis" className="w-16 h-16 rounded-full mx-auto mb-2 object-cover" />
-                    <p className="text-white font-semibold">Kevin Davis</p>
-                    <p className="text-gray-300 text-sm">Product Mgmt</p>
-                  </div>
+                <div className="flex w-max animate-scroll gap-8 will-change-transform">
+                  {mentorCarouselItems.map((mentor) => (
+                    <div key={`primary-${mentor.name}`} className="w-40 flex-shrink-0 text-center">
+                      <div className="relative w-16 h-16 mx-auto mb-2">
+                        <div className={`absolute inset-0 rounded-full flex items-center justify-center text-white text-sm font-semibold bg-gradient-to-br from-slate-500 to-slate-700 transition-opacity duration-500 ${loadedMentorImages[mentor.image] ? 'opacity-0' : 'opacity-100'}`}>
+                          {getInitials(mentor.name)}
+                        </div>
+                        <img
+                          src={mentor.image}
+                          alt={mentor.name}
+                          className={`w-16 h-16 rounded-full object-cover transition-opacity duration-500 ${loadedMentorImages[mentor.image] ? 'opacity-100' : 'opacity-0'}`}
+                          width="64"
+                          height="64"
+                          loading="lazy"
+                          decoding="async"
+                          fetchPriority="low"
+                          onLoad={() => markMentorImageLoaded(mentor.image)}
+                        />
+                      </div>
+                      <p className="text-white font-semibold">{mentor.name}</p>
+                      <p className="text-gray-300 text-sm">{mentor.role}</p>
+                    </div>
+                  ))}
+                  {mentorCarouselItems.map((mentor) => (
+                    <div key={`duplicate-${mentor.name}`} className="w-40 flex-shrink-0 text-center" aria-hidden="true">
+                      <div className="relative w-16 h-16 mx-auto mb-2">
+                        <div className={`absolute inset-0 rounded-full flex items-center justify-center text-white text-sm font-semibold bg-gradient-to-br from-slate-500 to-slate-700 transition-opacity duration-500 ${loadedMentorImages[mentor.image] ? 'opacity-0' : 'opacity-100'}`}>
+                          {getInitials(mentor.name)}
+                        </div>
+                        <img
+                          src={mentor.image}
+                          alt=""
+                          className={`w-16 h-16 rounded-full object-cover transition-opacity duration-500 ${loadedMentorImages[mentor.image] ? 'opacity-100' : 'opacity-0'}`}
+                          width="64"
+                          height="64"
+                          loading="lazy"
+                          decoding="async"
+                          fetchPriority="low"
+                          onLoad={() => markMentorImageLoaded(mentor.image)}
+                        />
+                      </div>
+                      <p className="text-white font-semibold">{mentor.name}</p>
+                      <p className="text-gray-300 text-sm">{mentor.role}</p>
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
